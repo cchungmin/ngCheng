@@ -1,16 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
-<head>
-  <meta charset="UTF-8">
-  <title>App</title>
-  <link rel="stylesheet" href="main.css">
-</head>
-<body ng-controller="Ctrl as ctrl">
-  <main>
-    Part of App
-    <div test-directive></div>
-  </main>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-  <script src="main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>App</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sanse|Quicksand">
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <header ng-controller="StickyCtrl as stickyCtrl">
+      <div class="sticky">
+        I am sticked.
+      </div>
+    </header>
+    <div class="ctn-curtain section-footer" ng-controller="MainCtrl as mainCtrl">
+
+      <div class="section-inner masthead container">
+        <section class="profile">
+          <div class="kaizo-mario-container span12">
+            <div class="kaizo-mario-image-container">
+              <img class="kaizo-mario-image" src="http://www.kaizomario.com/images/cmcheng.jpg">
+            </div>
+              <div class="kaizo-mario-pulse"></div>
+          </div>
+          <div class="kaizo-mario-name span12">
+            {{mainCtrl.data.user}}
+          </div>
+          <div class="tagline">
+            {{mainCtrl.data.position}} in {{mainCtrl.data.location}}.
+          </div>
+        </section>
+
+        <section class="social">
+          <ul class="social list-inline span12">
+            <li ng-repeat="(name, link) in mainCtrl.data.social track by $index">
+              <a class="links" target="_blank" href="{{link}}">
+                <i class="icon-{{name}}-sign"></i>
+              </a>
+            </li>
+          </ul>
+          <div>
+            <a target="_blank" href="http://www.kaizomario.com/blog/">Blog</a>
+          </div>
+        </section>
+
+        <section class="experience">
+          <div class="experience-left">
+
+          </div>
+          <div class="experience-right">
+
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>

@@ -1,0 +1,126 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  font-family: 'Roboto Condensed', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  background-color: #fff;
+  box-sizing: border-box;
+  min-height: 100%;
+}
+
+section {
+  padding: 45px 0;
+}
+
+.base,
+p,
+ul,
+ol {
+  font-size: 19px;
+}
+
+main {
+  max-width: 864px;
+  padding-top: 0;
+  min-height: initial;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+.ctn-curtain {
+  background: url(http://www.kaizomario.com/images/background.jpg) no-repeat center center;
+  background-size: cover;
+  min-height: 100%;
+  width: 100%;
+}
+
+.ctn-curtain.section-footer {
+  background-color: #fff;
+}
+
+.ctn-curtain.section-footer a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.ctn-curtain.section-footer a:hover {
+  color: #ff6b6b;
+}
+
+.section-inner {
+  padding: 50px 0;
+  vertical-align: middle;
+}
+
+.masthead {
+  color: #fff;
+  font-family: 'Quicksand', sans-serif;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.masthead .tagline {
+  margin-top: 30px;
+  font-size: 24px;
+}
+
+.social {
+  margin-top: 30px;
+}
+
+.social .links {
+  color: #fff !important;
+  font-size: 36px;
+}
+
+.social .links:hover {
+  color: #ff6b6b !important;
+}
+
+.kaizo-mario-container {
+  margin: 60px;
+}
+
+.kaizo-mario-image-container {
+  height: 200px;
+  margin: 0 auto;
+  width: 200px;
+}
+
+.kaizo-mario-name {
+  font-size: 60px;
+}
+
+.kaizo-mario-image {
+  border-radius: 200px;
+  height: auto;
+  width: 100%;
+}
+
+body.loaded .kaizo-mario-image-container {
+  opacity: 1;
+  -webkit-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  -o-transform: translateY(0%);
+  transform: translateY(0%);
+}
+
+.icon-bullet::before {
+  content: '';
+}
+
+@media (max-width: 767px) {
+  .kaizo-mario-name {
+    font-size: 40px;
+  }
+}
