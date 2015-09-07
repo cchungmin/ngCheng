@@ -20,12 +20,20 @@ app.controller('StickyCtrl', function($scope, $element, $window) {
   var scope = $scope;
   var element = $element;
 
-  var init = function() {
-
-  };
+  var doc = document.documentElement;
+  var body = document.body
+  var target = document.querySelector('.profile');
+  var parent = element.parent();
+  var targetOffset = target.offsetTop;
 
   angular.element($window).bind('scroll', function() {
-    console.log('test');
+    var docHeight = doc.scrollTop || body.scrollTop;
+
+    if (docHeight > targetOffset) {
+      parent.addClass('active');
+    } else {
+      parent.removeClass('active');
+    }
   });
 });
 
