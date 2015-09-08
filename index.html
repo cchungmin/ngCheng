@@ -14,7 +14,7 @@
         <img src="http://www.kaizomario.com/images/cmcheng.jpg">
       </div>
       <div class="sticky-user">{{stickyCtrl.data.user}}</div>
-      <div class="sticky-shortintro">{{stickyCtrl.data.position}} in {{stickyCtrl.data.location}}</div>
+      <div class="sticky-shortintro">{{stickyCtrl.data.position}}, {{stickyCtrl.data.location}}</div>
       <div class="sticky-social">
         <ul class="list-inline">
           <li ng-repeat="(name, link) in stickyCtrl.data.social track by $index">
@@ -39,7 +39,7 @@
             {{mainCtrl.data.user}}
           </div>
           <div class="tagline">
-            {{mainCtrl.data.position}}, {{mainCtrl.data.location}}.
+            {{mainCtrl.data.position}} in {{mainCtrl.data.location}}.
           </div>
         </section>
 
