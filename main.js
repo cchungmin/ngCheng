@@ -47,13 +47,13 @@ app.directive('sticky', function() {
           var parent = element.parent();
           scope.$on('addSticky', function() {
             if (!parent.hasClass('active')) {
-              element.parent().addClass('active');
+              parent.addClass('active');
             }
           });
 
           scope.$on('removeSticky', function() {
             if (parent.hasClass('active')) {
-              element.parent().removeClass('active');
+              parent.removeClass('active');
             }
           });
         }
