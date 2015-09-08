@@ -64,10 +64,9 @@ app.directive('sticky', function() {
 
 app.service('firebase', function($firebaseObject) {
   var ref = new Firebase('https://popping-heat-9561.firebaseio.com/');
-  this.firebaseData = $firebaseObject(ref);
 
   this.getFirebaseData = function() {
-    return this.firebaseData
+    return $firebaseObject(ref);
   };
 });
 
