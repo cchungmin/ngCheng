@@ -124,6 +124,57 @@ body.loaded .kaizo-mario-image-container {
   to { opacity: 1}
 }
 
+.sticky {
+  display: table;
+  width: 100%;
+}
+
+.sticky-image,
+.sticky-user,
+.sticky-shortintro,
+.sticky-social {
+  display: table-cell;
+}
+
+.sticky-image {
+  width: 15%;
+  text-align: right;
+}
+
+.sticky-image img {
+  border-radius: 60px;
+  height: 60px;
+  margin: 6px 0;
+  transform: translate(0, -66px);
+  -webkit-transform: translate(0, -66px);
+  -moz-transform: translate(0, -66px);
+}
+
+.sticky-user {
+  text-align: center;
+}
+
+.sticky-user,
+.sticky-shortintro {
+  width: 25%;
+  font-size: 18px;
+}
+
+.sticky-social {
+  width: 35%;
+  vertical-align: middle;
+  text-align: right;
+}
+
+.sticky-social a {
+  font-size: 36px;
+  text-decoration: none;
+}
+
+.sticky-social .list-inline {
+  margin-bottom: 0;
+}
+
 .sticky-nav {
   display: none;
   opacity: 0;
@@ -132,12 +183,41 @@ body.loaded .kaizo-mario-image-container {
 .sticky-nav.active {
   display: block;
   opacity: 1;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background-color: #fff;
+  height: 72px;
   -webkit-animation: fade-in 1s;
   animation: fade-in 1s;
 }
 
-@media (max-width: 767px) {
+.sticky-nav.active .sticky-image img {
+  transform: translate(0, 0);
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  transition: transform 500ms;
+  -webkit-transition: transform 500ms;
+  -moz-transition: transform 500ms;
+}
+
+@media screen and (max-width: 767px) {
   .kaizo-mario-name {
     font-size: 40px;
+  }
+
+  .sticky-shortintro {
+    display: none;
+  }
+
+  .sticky-social {
+    width: 60%;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sticky-social a {
+    font-size: 24px;
   }
 }

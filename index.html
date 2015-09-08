@@ -9,20 +9,33 @@
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
-      <div class="sticky" ng-controller="StickyCtrl as stickyCtrl">
-        I am sticked.
+    <div class="sticky" ng-controller="StickyCtrl as stickyCtrl">
+      <div class="sticky-image">
+        <img src="http://www.kaizomario.com/images/cmcheng.jpg">
       </div>
+      <div class="sticky-user">{{stickyCtrl.data.user}}</div>
+      <div class="sticky-shortintro">{{stickyCtrl.data.position}} in {{stickyCtrl.data.location}}</div>
+      <div class="sticky-social">
+        <ul class="list-inline">
+          <li ng-repeat="(name, link) in stickyCtrl.data.social track by $index">
+            <a target="_blank" href="{{link}}">
+              <i class="icon-{{name}}-sign"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div class="ctn-curtain section-footer" ng-controller="MainCtrl as mainCtrl">
 
       <div class="section-inner masthead container">
         <section class="profile">
-          <div class="kaizo-mario-container span12">
+          <div class="kaizo-mario-container">
             <div class="kaizo-mario-image-container">
               <img class="kaizo-mario-image" src="http://www.kaizomario.com/images/cmcheng.jpg">
             </div>
               <div class="kaizo-mario-pulse"></div>
           </div>
-          <div class="kaizo-mario-name span12">
+          <div class="kaizo-mario-name">
             {{mainCtrl.data.user}}
           </div>
           <div class="tagline">
@@ -31,7 +44,7 @@
         </section>
 
         <section class="social">
-          <ul class="social list-inline span12">
+          <ul class="social list-inline">
             <li ng-repeat="(name, link) in mainCtrl.data.social track by $index">
               <a class="links" target="_blank" href="{{link}}">
                 <i class="icon-{{name}}-sign"></i>
