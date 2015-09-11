@@ -18,14 +18,23 @@ app.controller('MainCtrl', function($scope, $element, firebase) {
 app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   var scope = $scope;
   var element = $element;
-  this.data = firebase.getFirebaseData();
-
   var doc = document.documentElement;
   var body = document.body
   var target = document.querySelector('.profile');
   var targetOffset = target.offsetTop;
+  this.data = firebase.getFirebaseData();
 
-  angular.element($window).bind('scroll', function() {
+  this.registerEvents = function(el) {
+    scope.$on('addSticky', function() {
+      el.addClass('active');
+    });
+
+    scope.$on('removeSticky', function() {
+      el.removeClass('active');
+    });
+  };
+
+  this.stickyMonitor = function() {
     var docHeight = doc && doc.scrollTop || body && body.scrollTop;
 
     if (docHeight > targetOffset) {
@@ -33,7 +42,10 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
     } else {
       scope.$emit('removeSticky');
     }
-  });
+  };
+
+  angular.element($window).bind('load', this.stickyMonitor);
+  angular.element($window).bind('scroll', this.stickyMonitor);
 });
 
 app.directive('sticky', function() {
@@ -41,25 +53,30 @@ app.directive('sticky', function() {
     restrict: 'C',
     controller: 'StickyCtrl',
     compile: function(tElement, tAttrs, transclude) {
+      console.log('sticky', tAttrs);
       return {
         pre: function preLink(scope, element, attrs, ctrl) {
           element.wrap('<div class="sticky-nav container-fluid"></div>');
           var parent = element.parent();
-          scope.$on('addSticky', function() {
-            if (!parent.hasClass('active')) {
-              parent.addClass('active');
-            }
-          });
-
-          scope.$on('removeSticky', function() {
-            if (parent.hasClass('active')) {
-              parent.removeClass('active');
-            }
-          });
+          ctrl.registerEvents(parent);
         }
       }
     }
   }
+});
+
+app.directive('test', function() {
+  return {
+    restrict: 'A',
+    compile: function(tElement, tAttrs) {
+      console.log('test', tAttrs);
+      return {
+        pre: function preLink() {
+
+        }
+      }
+    }
+  };
 });
 
 app.service('firebase', function($firebaseObject) {
