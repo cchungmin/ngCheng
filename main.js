@@ -65,20 +65,6 @@ app.directive('sticky', function() {
   }
 });
 
-app.directive('test', function() {
-  return {
-    restrict: 'A',
-    compile: function(tElement, tAttrs) {
-      console.log('test', tAttrs);
-      return {
-        pre: function preLink() {
-
-        }
-      }
-    }
-  };
-});
-
 app.service('firebase', function($firebaseObject) {
   var ref = new Firebase('https://popping-heat-9561.firebaseio.com/');
 
