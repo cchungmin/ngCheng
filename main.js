@@ -19,7 +19,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   var scope = $scope;
   var element = $element;
   var doc = document.documentElement;
-  var body = document.body
+  var body = document.body;
   var target = document.querySelector('.profile');
   var targetOffset = target.offsetTop;
   this.data = firebase.getFirebaseData();
