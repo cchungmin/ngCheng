@@ -44,7 +44,6 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
     }
   };
 
-  angular.element($window).bind('load', this.stickyMonitor);
   angular.element($window).bind('scroll', this.stickyMonitor);
 });
 
@@ -52,7 +51,7 @@ app.directive('sticky', function() {
   return {
     restrict: 'C',
     controller: 'StickyCtrl',
-    compile: function(tElement, tAttrs, transclude) {
+    compile: function(tElement, tAttrs) {
       console.log('sticky', tAttrs);
       return {
         pre: function preLink(scope, element, attrs, ctrl) {
