@@ -37,7 +37,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   this.stickyMonitor = function() {
     var docHeight = doc && doc.scrollTop || body && body.scrollTop;
 
-    if (docHeight > targetOffset) {
+    if (docHeight > lastPosOffsetTop) {
       scope.$emit('addSticky');
     } else {
       scope.$emit('removeSticky');
@@ -52,7 +52,6 @@ app.directive('sticky', function() {
     restrict: 'C',
     controller: 'StickyCtrl',
     compile: function(tElement, tAttrs) {
-      console.log('sticky', tAttrs);
       return {
         pre: function preLink(scope, element, attrs, ctrl) {
           element.wrap('<div class="sticky-nav container-fluid"></div>');
