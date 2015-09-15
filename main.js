@@ -23,7 +23,7 @@ app.controller('MainCtrl', function($scope, $element, firebase, $http) {
       console.error(res);
   });
 
-  console.log('mainCtrl', this.data);
+  console.log('mainCtrl', profile);
 
   this.getProfileData = function() {
     return profile;
