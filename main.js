@@ -7,14 +7,26 @@ var ctn = querySelector('.ctn-curtain');
 
 var app = angular.module('app', ['firebase']);
 
-app.controller('MainCtrl', function($scope, $element, firebase, linkedin) {
+app.controller('MainCtrl', function($scope, $element, firebase, $http) {
   this.data = firebase.getFirebaseData();
-  this.profile = linkedin.getProfileData();
+  //this.profile = linkedin.getProfileData();
+  var url = 'https://api.linkedin.com/v1/people/~?format=json';
+  var http = $http;
+  var profile = undefined;
 
-  console.log(this.profile);
+  http.get(url).then(
+    function (res) {
+      console.log(res);
+      profile = res;
+    },
+    function (res){
+      console.error(res);
+  });
 
-  this.sayHello = function() {
-    console.log(this.data.user);
+  console.log('mainCtrl', this.data);
+
+  this.getProfileData = function() {
+    return profile;
   };
 });
 
@@ -66,29 +78,11 @@ app.directive('sticky', function() {
 });
 
 app.service('firebase', function($firebaseObject) {
+  var firebaseObject = $firebaseObject;
   var ref = new Firebase('https://popping-heat-9561.firebaseio.com/');
 
   this.getFirebaseData = function() {
-    return $firebaseObject(ref);
-  };
-});
-
-app.service('linkedin', function($http) {
-  var url = 'https://www.linkedin.com/uas/oauth2/authorization';
-  var http = $http;
-  var profile = undefined;
-
-  http.get(url).then(
-    function (res) {
-      console.log(res.data);
-      profile = res.data;
-    },
-    function (res){
-      console.error(res);
-  });
-
-  this.getProfileData = function() {
-    return profile;
+    return firebaseObject(ref);
   };
 });
 
