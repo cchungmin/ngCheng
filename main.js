@@ -7,8 +7,11 @@ var ctn = querySelector('.ctn-curtain');
 
 var app = angular.module('app', ['firebase']);
 
-app.controller('MainCtrl', function($scope, $element, firebase) {
+app.controller('MainCtrl', function($scope, $element, firebase, linkedin) {
   this.data = firebase.getFirebaseData();
+  this.profile = linkedin.getProfileData();
+
+  console.log(this.profile);
 
   this.sayHello = function() {
     console.log(this.data.user);
@@ -20,8 +23,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   var element = $element;
   var doc = document.documentElement;
   var body = document.body;
-  var target = document.querySelector('.profile');
-  var targetOffset = target.offsetTop;
+  var targetOffset = document.querySelector('.profile').offsetTop;
   this.data = firebase.getFirebaseData();
 
   this.registerEvents = function(el) {
@@ -37,7 +39,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   this.stickyMonitor = function() {
     var docHeight = doc && doc.scrollTop || body && body.scrollTop;
 
-    if (docHeight > lastPosOffsetTop) {
+    if (docHeight > targetOffset) {
       scope.$emit('addSticky');
     } else {
       scope.$emit('removeSticky');
@@ -68,6 +70,25 @@ app.service('firebase', function($firebaseObject) {
 
   this.getFirebaseData = function() {
     return $firebaseObject(ref);
+  };
+});
+
+app.service('linkedin', function($http) {
+  var url = 'https://www.linkedin.com/uas/oauth2/authorization';
+  var http = $http;
+  var profile = undefined;
+
+  http.get(url).then(
+    function (res) {
+      console.log(res.data);
+      profile = res.data;
+    },
+    function (res){
+      console.error(res);
+  });
+
+  this.getProfileData = function() {
+    return profile;
   };
 });
 
