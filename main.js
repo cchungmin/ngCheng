@@ -9,7 +9,6 @@ var app = angular.module('app', ['firebase']);
 
 app.controller('MainCtrl', function($scope, $element, firebase, $http) {
   this.data = firebase.getFirebaseData();
-  //this.profile = linkedin.getProfileData();
   var url = 'https://api.linkedin.com/v1/people/~?format=json';
   var http = $http;
   var profile = undefined;
