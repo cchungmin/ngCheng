@@ -15,11 +15,9 @@ app.controller('MainCtrl', function($scope, $element, firebase, $http) {
 
   http.get(url).then(
     function (res) {
-      console.log(res);
       profile = res;
     },
     function (res){
-      console.error(res);
   });
 
   console.log('mainCtrl', profile);
