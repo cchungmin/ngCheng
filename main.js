@@ -20,8 +20,6 @@ app.controller('MainCtrl', function($scope, $element, firebase, $http) {
     function (res){
   });
 
-  console.log('mainCtrl', profile);
-
   this.getProfileData = function() {
     return profile;
   };
