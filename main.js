@@ -43,7 +43,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
     });
   };
 
-  this.stickyMonitor = function() {
+  var stickyMonitor = function() {
     var docHeight = doc && doc.scrollTop || body && body.scrollTop;
 
     if (docHeight > targetOffset) {
@@ -53,7 +53,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
     }
   };
 
-  angular.element($window).bind('scroll', this.stickyMonitor);
+  angular.element($window).bind('scroll', stickyMonitor);
 });
 
 app.directive('sticky', function() {
