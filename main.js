@@ -44,7 +44,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   };
 
   var stickyMonitor = function() {
-    var docHeight = doc && doc.scrollTop || body && body.scrollTop;
+    var docHeight = (doc && doc.scrollTop || body && body.scrollTop || 0);
 
     if (docHeight > targetOffset) {
       scope.$emit('addSticky');
