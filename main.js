@@ -2,9 +2,6 @@
 
 'use strict';
 
-var querySelector = document.querySelector.bind(document);
-var ctn = querySelector('.ctn-curtain');
-
 var app = angular.module('app', ['firebase']);
 
 app.controller('MainCtrl', function($scope, $element, firebase, $http) {
