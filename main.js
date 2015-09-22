@@ -15,7 +15,8 @@ app.controller('MainCtrl', function($scope, $element, firebase, $http) {
       profile = res;
     },
     function (res){
-  });
+    }
+  );
 
   this.getProfileData = function() {
     return profile;
