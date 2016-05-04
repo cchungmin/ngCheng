@@ -10,13 +10,11 @@ app.controller('MainCtrl', function($scope, $element, firebase, $http) {
   var http = $http;
   var profile = undefined;
 
-  http.get(url).then(
-    function (res) {
-      profile = res;
-    },
-    function (res){
-    }
-  );
+  http.get(url).success(function (response) {
+      profile = response;
+    }).error(function (response){
+      console.warn(response);
+    });
 
   this.getProfileData = function() {
     return profile;
@@ -28,7 +26,8 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
   var element = $element;
   var doc = document.documentElement;
   var body = document.body;
-  var targetOffset = document.querySelector('.profile').offsetTop;
+  var targetOffset = 10;
+      // document.querySelector('.profile').offsetTop;
   this.data = firebase.getFirebaseData();
 
   this.registerEvents = function(el) {
@@ -51,7 +50,7 @@ app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
     }
   };
 
-  angular.element($window).bind('scroll', stickyMonitor);
+  angular.element($window).on('scroll', stickyMonitor);
 });
 
 app.directive('sticky', function() {
