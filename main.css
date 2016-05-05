@@ -163,6 +163,7 @@ body.loaded .kaizo-mario-image-container {
 .sticky-shortintro {
   width: 25%;
   font-size: 18px;
+  vertical-align: middle;
 }
 
 .sticky-social {
