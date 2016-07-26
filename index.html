@@ -37,7 +37,7 @@
         </ul>
       </div>
     </div>
-    <div class="ctn-curtain section-footer" ng-controller="MainCtrl as mainCtrl">
+    <div class="ctn-curtain section-footer" ng-class="{'loading': mainCtrl.isIntervalFinished === false, 'displayed': mainCtrl.isIntervalFinished === true}" ng-style="{'background-image': 'url(' + mainCtrl.backgroundImages[mainCtrl.randomNum].webformatURL + ')'}" ng-controller="MainCtrl as mainCtrl">
       <div class="section-inner masthead container">
         <section class="profile">
           <div class="kaizo-mario-container">
@@ -73,6 +73,7 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
     <script src="main.js"></script>

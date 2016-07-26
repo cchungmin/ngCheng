@@ -42,6 +42,18 @@ body {
   overflow-y: scroll;
 }
 
+.loading {
+  transition: all linear 0.5s;
+}
+
+.loading {
+  opacity: 0;
+}
+
+.displayed {
+  opacity: 1;
+}
+
 .ctn-curtain {
   background: url(http://www.kaizomario.com/images/background.jpg) no-repeat center center;
   background-size: cover;

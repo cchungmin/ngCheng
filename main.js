@@ -1,30 +1,89 @@
 (function() {
   'use strict';
 
-  var app = angular.module('app', ['firebase']);
+  var app = angular.module('app', [
+    'ngAnimate',
+    'firebase']
+  );
 
-  app.controller('MainCtrl', function($scope, $element, firebase,
-      pixabay, $http) {
+  /** @ngInject */
+  var MainCtrl = function($scope, $element, firebase, $http, $interval) {
+    var URL = 'https://pixabay.com/api/?key=2543988-fd5c4b4e8fbea278ea06181b8&q=yellow+flowers&image_type=photo';
     this.data = firebase.getFirebaseData();
-    var url = 'https://pixabay.com/api/?key=2543988-fd5c4b4e8fbea278ea06181b8&q=yellow+flowers&image_type=photo';
-    var http = $http;
-    var profile = null;
-    var images = pixabay.getImages();
+    this.scope = $scope;
+    this.element = $element;
+    this.http = $http;
+    this.interval = $interval;
+    this.backgroundImages = [];
+    this.randomNum = 0;
+    this.stop;
+    this.intervalSecs = 5000;
+    this.isIntervalFinished = true;
 
-    http.get(url).success(function(response) {
-      profile = response.data.hits;
-    }).error(function(response) {
-      console.warn(response);
-    });
+    this.init(URL);
+  };
 
-    this.getProfileData = function() {
-      return profile;
+  /** @ngInject */
+  MainCtrl.prototype.init = function(url) {
+    var self = this;
+    var handleSuccess = function(response) {
+      self.backgroundImages = response.hits;
+      self.startPlaying();
     };
 
-    angular.element(document).ready(function() {
-      console.log(images);
+    var handleError = function(response) {
+      console.warn(response);
+    };
+
+    this.http.get(url)
+        .success(handleSuccess)
+        .error(handleError);
+
+    this.scope.$watch(function () {
+       return self.randomNum;
+      } , function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        self.isIntervalFinished = false;
+      }
     });
-  });
+  };
+
+  /**
+   * Returns a random integer between min (inclusive) and max (inclusive)
+   * Using Math.round() will give you a non-uniform distribution!
+   * @ngInject
+   */
+  MainCtrl.prototype.getRandomInt = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  /**
+   * @ngInject
+   */
+  MainCtrl.prototype.startPlaying = function() {
+    if (angular.isDefined(this.stop)) {
+      return;
+    }
+
+    var self = this;
+
+    this.stop = this.interval(function() {
+      self.randomNum = self.getRandomInt(0, 20);
+      self.isIntervalFinished = true;
+    }, 5000);
+  };
+
+  /**
+   * @ngInject
+   */
+  MainCtrl.prototype.stopPlaying = function() {
+    if (angular.isDefined(this.stop)) {
+      this.interval.cancel(this.stop);
+      this.stop = undefined;
+    }
+  };
+
+  app.controller('MainCtrl', MainCtrl);
 
   app.controller('StickyCtrl', function($scope, $element, $window, firebase) {
     var scope = $scope;
@@ -81,24 +140,5 @@
     this.getFirebaseData = function() {
       return firebaseObject(ref);
     };
-  });
-
-  app.service('pixabay', function($http) {
-    var pixabay = {};
-    var pixabayUrl = 'https://pixabay.com/api/?key=2543988-fd5c4b4e8fbea278ea06181b8&q=yellow+flowers&image_type=photo';
-    var images = [];
-
-    $http.get(pixabayUrl).then(function(res) {
-      images = res.data.hits;
-      console.log(images);
-    }, function(res) {
-      console.log(res);
-    });
-
-    pixabay.getImages = function() {
-      return images;
-    };
-
-    return pixabay;
   });
 })();
