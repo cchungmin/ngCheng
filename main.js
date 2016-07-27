@@ -42,15 +42,14 @@
 
     /** @ngInject */
     init(url) {
-      var self = this;
       var u = this.buildURL_();
 
-      var handleSuccess = function(response) {
-        self.backgroundImages = response.hits;
-        self.startPlaying();
+      var handleSuccess = (response) => {
+        this.backgroundImages = response.hits;
+        this.startPlaying();
       };
 
-      var handleError = function(response) {
+      var handleError = (response) => {
         console.warn(response);
       };
 
@@ -58,9 +57,9 @@
           .success(handleSuccess)
           .error(handleError);
 
-      this.scope.$watch(function () {
+      this.scope.$watch(() => {
          return self.randomNum;
-        } , function(newVal, oldVal) {
+        } , (newVal, oldVal) => {
         if (newVal !== oldVal) {
           // self.isIntervalFinished = false;
         }
@@ -93,10 +92,9 @@
         return;
       }
 
-      var self = this;
-      var handler = function() {
-        self.randomNum = self.getRandomInt(0, 20);
-        self.setUpImage_();
+      var handler = () => {
+        this.randomNum = this.getRandomInt(0, 20);
+        this.setUpImage_();
         // self.isIntervalFinished = true;
       };
 
@@ -127,7 +125,7 @@
       var list = preloadImages.list;
       for (var i = 0, len = arr.length; i < len; i++) {
         var img = new Image();
-        img.onload = function() {
+        img.onload = () => {
           var index = list.indexOf(this);
           if (index !== -1) {
             // remove image from the array once it's loaded
