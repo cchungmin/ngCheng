@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="ngCheng">
   <head>
     <meta charset="UTF-8">
     <title>Kaizo Mario: Chung-Min Cheng's personal site</title>
@@ -20,16 +20,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sanse|Quicksand">
     <link rel="stylesheet" href="main.css">
   </head>
-  <body>
-    <div class="sticky" ng-controller="StickyCtrl as stickyCtrl" ng-cloak>
+  <body ng-controller="MainCtrl as mainCtrl">
+    <div class="sticky" sticky-offset="10" ng-cloak>
       <div class="sticky-image">
         <img src="http://www.kaizomario.com/images/cmcheng.jpg">
       </div>
-      <div class="sticky-user">{{stickyCtrl.data.user}}</div>
-      <div class="sticky-shortintro">{{stickyCtrl.data.position}}, {{stickyCtrl.data.location}}</div>
+      <div class="sticky-user">{{mainCtrl.data.user}}</div>
+      <div class="sticky-shortintro">{{mainCtrl.data.position}}, {{mainCtrl.data.location}}</div>
       <div class="sticky-social">
         <ul class="list-inline">
-          <li ng-repeat="(name, link) in stickyCtrl.data.social track by $index">
+          <li ng-repeat="(name, link) in mainCtrl.data.social track by $index">
             <a target="_blank" href="{{link}}">
               <i class="icon-{{name}}-sign"></i>
             </a>
@@ -37,7 +37,7 @@
         </ul>
       </div>
     </div>
-    <div class="ctn-curtain section-footer" ng-class="{'loading': mainCtrl.isIntervalFinished === false, 'displayed': mainCtrl.isIntervalFinished === true}" ng-style="{'background-image': 'url(' + mainCtrl.backgroundImages[mainCtrl.randomNum].webformatURL + ')'}" ng-controller="MainCtrl as mainCtrl">
+    <div class="ctn-curtain section-footer" gallery gallery-config="{'test':'123', 'test2':'456'}" ng-class="{'loading': mainCtrl.isIntervalFinished === false, 'displayed': mainCtrl.isIntervalFinished === true}">
       <div class="section-inner masthead container">
         <section class="profile">
           <div class="kaizo-mario-container">

@@ -2,6 +2,11 @@
 
 import gulp from 'gulp';
 import webserver from 'gulp-webserver';
+import gulpLoadPlugins from 'gulp-load-plugins';
+import pkg from './package.json';
+import ngAnnotate from'gulp-ng-annotate';
+
+const $ = gulpLoadPlugins();
 
 var server = {
   host: 'localhost',
@@ -78,7 +83,7 @@ gulp.task('scripts', () =>
       // Note: Since we are not using useref in the scripts build pipeline,
       //       you need to explicitly list your scripts here in the right order
       //       to be correctly concatenated
-      'public/js/scripts/main.js'
+      'main.js'
       // Other scripts
     ])
       // .pipe($.newer('.tmp/scripts'))
