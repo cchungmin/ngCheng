@@ -51,6 +51,7 @@ body {
 }
 
 .displayed {
+  transition: all linear 0.5s;
   opacity: 1;
 }
 

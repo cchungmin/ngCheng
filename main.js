@@ -10,46 +10,59 @@
   class MainCtrl {
     constructor(firebase) {
       this.data = firebase.getFirebaseData();
+      this.galleryConfig = {
+        key: '2543988-fd5c4b4e8fbea278ea06181b8',
+        q: 'mountain+forest',
+        image_type: 'photo'
+      };
     }
   };
 
   /** @ngInject */
   class GalleryCtrl {
-    constructor($scope, $element, $attrs, $http, $interval) {
-      var URL = 'https://pixabay.com/api/?key=2543988-fd5c4b4e8fbea278ea06181b8&q=mountain+forest&image_type=photo';
+    constructor($scope, $element, $attrs, $compile, $http, $interval) {
       this.scope = $scope;
       this.element = $element;
       this.http = $http;
       this.interval = $interval;
+      this.compile = $compile;
+      this.attrs = $attrs;
       this.backgroundImages = [];
+      this.preloadImages = {};
+      this.preloadImages.list = []
       this.randomNum = 0;
-      this.config = $attrs.galleryConfig;
       this.stop;
       this.intervalSecs = 5000;
       this.isIntervalFinished = true;
-
-      this.init(URL);
     };
 
     /**
      * @private
+     * @return {string}
      * @ngInject
      */
     buildURL_() {
-      var configData = JSON.parse('"' + this.config + '"');
-      console.log(configData.test);
+      let configData = JSON.parse(this.attrs.galleryConfig);
+      let parameterStr = '';
+
+      angular.forEach(configData, function(val, key) {
+        parameterStr += key + '=' + val + '?';
+      });
+
+      return 'https://pixabay.com/api/?' + parameterStr.slice(0, -1);
     };
 
     /** @ngInject */
-    init(url) {
-      var u = this.buildURL_();
+    init() {
+      let url = this.buildURL_();
 
-      var handleSuccess = (response) => {
+      let handleSuccess = (response) => {
         this.backgroundImages = response.hits;
+        this.preloadImages_();
         this.startPlaying();
       };
 
-      var handleError = (response) => {
+      let handleError = (response) => {
         console.warn(response);
       };
 
@@ -58,7 +71,7 @@
           .error(handleError);
 
       this.scope.$watch(() => {
-         return self.randomNum;
+         return this.randomNum;
         } , (newVal, oldVal) => {
         if (newVal !== oldVal) {
           // self.isIntervalFinished = false;
@@ -69,6 +82,8 @@
     /**
      * Returns a random integer between min (inclusive) and max (inclusive)
      * Using Math.round() will give you a non-uniform distribution!
+     * @param {number} min
+     * @param {number} max
      * @ngInject
      */
     getRandomInt(min, max) {
@@ -80,6 +95,7 @@
      * @ngInject
      */
     setUpImage_() {
+      this.element.addClass('displayed');
       this.element.css('background-image', 'url(' +
           this.backgroundImages[this.randomNum].webformatURL + ')');
     };
@@ -92,7 +108,8 @@
         return;
       }
 
-      var handler = () => {
+      let handler = () => {
+        this.element.removeClass('displayed');
         this.randomNum = this.getRandomInt(0, 20);
         this.setUpImage_();
         // self.isIntervalFinished = true;
@@ -100,7 +117,7 @@
 
       this.setUpImage_();
 
-      this.stop = this.interval(handler, 5000);
+      this.stop = this.interval(handler, 10000);
     };
 
     /**
@@ -114,16 +131,17 @@
     };
 
     /**
+     * @param {Array<string>}
      * @private
      * @ngInject
      */
-    preloadImages_(arr) {
-      if (!preloadImages.list) {
-        preloadImages.list = [];
+    preloadImages_() {
+      if (!this.preloadImages.list) {
+        this.preloadImages.list = [];
       }
 
-      var list = preloadImages.list;
-      for (var i = 0, len = arr.length; i < len; i++) {
+      let list = this.preloadImages.list;
+      for (var i = 0, len = this.backgroundImages.length; i < len; i++) {
         var img = new Image();
         img.onload = () => {
           var index = list.indexOf(this);
@@ -134,7 +152,7 @@
           }
         };
         list.push(img);
-        img.src = arr[i];
+        img.src = this.backgroundImages[i].webformatURL;
       }
     };
   };
@@ -145,8 +163,12 @@
     return {
       restrict: 'AC',
       controller: 'GalleryCtrl',
-      link: function() {
-        console.log('test');
+      compile: function compile(tElement, tAttrs) {
+        return {
+          post: function(scope, iElement, iAttrs, ctrl) {
+            ctrl.init();
+          }
+        }
       }
     };
   });
@@ -154,13 +176,13 @@
   app.controller('MainCtrl', MainCtrl);
 
   app.controller('StickyCtrl', function($scope, $element, $attrs, $window) {
-    var scope = $scope;
-    var doc = document.documentElement;
-    var body = document.body;
-    var targetOffset = $attrs.stickyOffset;
+    let scope = $scope;
+    let doc = document.documentElement;
+    let body = document.body;
+    let targetOffset = $attrs.stickyOffset || 0;
 
-    this.registerEvents = function(el) {
-      scope.$on('addSticky', function() {
+    this.registerEvents = (el) => {
+      scope.$on('addSticky', () => {
         el.addClass('active');
       });
 
@@ -169,8 +191,8 @@
       });
     };
 
-    var stickyMonitor = function() {
-      var docHeight = (doc && doc.scrollTop || body && body.scrollTop || 0);
+    let stickyMonitor = () => {
+      let docHeight = (doc && doc.scrollTop || body && body.scrollTop || 0);
 
       if (docHeight > targetOffset) {
         scope.$emit('addSticky');
@@ -182,11 +204,11 @@
     angular.element($window).on('scroll', stickyMonitor);
   });
 
-  app.directive('sticky', function() {
+  app.directive('sticky', () => {
     return {
       restrict: 'C',
       controller: 'StickyCtrl',
-      compile: function(tElement, tAttrs) {
+      compile: (tElement, tAttrs) => {
         return {
           pre: function preLink(scope, element, attrs, ctrl) {
             element.wrap('<div class="sticky-nav"></div>');
@@ -200,8 +222,8 @@
   });
 
   app.service('firebase', function($firebaseObject) {
-    var firebaseObject = $firebaseObject;
-    var ref = new Firebase('https://popping-heat-9561.firebaseio.com/');
+    let firebaseObject = $firebaseObject;
+    let ref = new Firebase('https://popping-heat-9561.firebaseio.com/');
 
     this.getFirebaseData = function() {
       return firebaseObject(ref);
