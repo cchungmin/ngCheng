@@ -16,7 +16,7 @@
         image_type: 'photo'
       };
     }
-  };
+  }
 
   /** @ngInject */
   class GalleryCtrl {
@@ -29,7 +29,7 @@
       this.attrs = $attrs;
       this.backgroundImages = [];
       this.preloadImages = {};
-      this.preloadImages.list = []
+      this.preloadImages.list = [];
       this.randomNum = 0;
       this.stop;
       this.intervalSecs = 5000;
@@ -46,29 +46,40 @@
       let parameterStr = '';
 
       angular.forEach(configData, function(val, key) {
-        parameterStr += key + '=' + val + '?';
+        parameterStr += '?' + key + '=' + val;
       });
 
-      return 'https://pixabay.com/api/?' + parameterStr.slice(0, -1);
+      return 'https://pixabay.com/api/' + parameterStr;
     };
 
     /** @ngInject */
     init() {
       let url = this.buildURL_();
+      // url = 'https://pixabay.com/api/?key=2543988-fd5c4b4e8fbea278ea06181b8?q=mountain+tiger?image_type=photo&pretty=true';
+      // url = 'http://lpsst.vptest.com/api/landingpages/get/15667/'
+      url = 'http://lpsst.vptest.com/api/landingpage/validate/15667';
+      // url = 'https://pixabay.com/api/?key=2543988-fd5c4b4e8fbea278ea06181b8&q=yellow+flowers&image_type=photo&pretty=true';
 
       let handleSuccess = (response) => {
         this.backgroundImages = response.hits;
         this.preloadImages_();
         this.startPlaying();
+
+        console.log(response);
       };
 
       let handleError = (response) => {
         console.warn(response);
       };
 
-      this.http.get(url)
-          .success(handleSuccess)
-          .error(handleError);
+      this.http({
+        method: 'GET',
+        url: url,
+        withCredentials: true,
+        headers: {
+          'Content-Type': undefined
+        }
+      }).then(handleSuccess, handleError);
 
       this.scope.$watch(() => {
          return this.randomNum;

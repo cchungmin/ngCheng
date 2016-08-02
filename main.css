@@ -128,9 +128,6 @@ body {
 
 body.loaded .kaizo-mario-image-container {
   opacity: 1;
-  -webkit-transform: translateY(0%);
-  -ms-transform: translateY(0%);
-  -o-transform: translateY(0%);
   transform: translateY(0%);
 }
 
@@ -170,8 +167,6 @@ body.loaded .kaizo-mario-image-container {
   height: 60px;
   margin: 6px 0;
   transform: translate(0, -66px);
-  -webkit-transform: translate(0, -66px);
-  -moz-transform: translate(0, -66px);
 }
 
 .sticky-user {
@@ -203,8 +198,6 @@ body.loaded .kaizo-mario-image-container {
 .sticky-nav {
   display: none;
   opacity: 0;
-  -webkit-animation: fade-out 1s;
-  -moz-animation: fade-out 1s;
   animation: fade-out 1s;
 }
 
@@ -216,18 +209,12 @@ body.loaded .kaizo-mario-image-container {
   width: 100%;
   background-color: #fff;
   height: 72px;
-  -webkit-animation: fade-in 1s;
-  -moz-animation: fade-in 1s;
   animation: fade-in 1s;
 }
 
 .sticky-nav.active .sticky-image img {
   transform: translate(0, 0);
-  -webkit-transform: translate(0, 0);
-  -moz-transform: translate(0, 0);
   transition: transform 500ms;
-  -webkit-transition: transform 500ms;
-  -moz-transition: transform 500ms;
 }
 
 @media screen and (max-width: 767px) {
